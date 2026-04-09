@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMPS TEST</title>
+
+<style>
+body{
+font-family: Arial;
+padding:20px;
+max-width:800px;
+margin:auto;
+}
+.question{
+margin-bottom:20px;
+border:1px solid #ddd;
+padding:15px;
+border-radius:8px;
+}
+#timer{
+font-size:22px;
+color:red;
+font-weight:bold;
+}
+button{
+width:100%;
+padding:15px;
+background:green;
+color:white;
+border:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>CAMPS TEST</h2>
+<div id="timer">01:00:00</div>
+
+<div id="questions"></div>
+
+<button onclick="submitExam()">Submit Exam</button>
+
+<script>
+
+let questions = [];
+
+for(let i=1;i<=45;i++){
+questions.push({
+question:"IT Hardware & Networking Question " + i,
+options:["Option A","Option B","Option C","Option D"]
+});
+}
+
+let container = document.getElementById("questions");
+
+questions.forEach((q,index)=>{
+
+let div = document.createElement("div");
+div.classList.add("question");
+
+let html = `<p>${index+1}. ${q.question}</p>`;
+
+q.options.forEach(opt=>{
+html += `
+<label>
+<input type="radio" name="q${index}" value="${opt}">
+${opt}
+</label><br>
+`;
+});
+
+div.innerHTML = html;
+container.appendChild(div);
+
+});
+
+// timer
+let time = 3600;
+
+let timer = setInterval(()=>{
+
+let h = Math.floor(time/3600);
+let m = Math.floor((time%3600)/60);
+let s = time%60;
+
+document.getElementById("timer").innerHTML =
+`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+if(time<=0){
+submitExam();
+}
+
+time--;
+
+},1000);
+
+
+function submitExam(){
+
+clearInterval(timer);
+
+let answers = {};
+
+for(let i=0;i<45;i++){
+let ans = document.querySelector(`input[name="q${i}"]:checked`);
+answers[`q${i}`] = ans ? ans.value : "Not Answered";
+}
+
+let data = {
+name: localStorage.getItem("studentName"),
+reg: localStorage.getItem("studentReg"),
+answers: answers,
+date: new Date()
+};
+
+let all = JSON.parse(localStorage.getItem("results") || "[]");
+all.push(data);
+localStorage.setItem("results", JSON.stringify(all));
+
+alert("Exam Submitted Successfully");
+
+window.location="login.html";
+
+}
+
+</script>
+
+</body>
+</html>

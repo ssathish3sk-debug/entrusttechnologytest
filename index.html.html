@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMPS TEST Login</title>
+<style>
+body{
+font-family: Arial;
+padding:20px;
+max-width:500px;
+margin:auto;
+}
+input,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+}
+button{
+background:#007BFF;
+color:white;
+border:none;
+}
+</style>
+</head>
+<body>
+
+<h2>CAMPS TEST</h2>
+<p>IT Hardware & Networking + MCSA</p>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="text" id="reg" placeholder="Register Number">
+
+<button onclick="startExam()">Start Exam</button>
+
+<script>
+function startExam(){
+let name = document.getElementById("name").value;
+let reg = document.getElementById("reg").value;
+
+localStorage.setItem("studentName", name);
+localStorage.setItem("studentReg", reg);
+
+window.location = "exam.html";
+}
+</script>
+
+</body>
+</html>

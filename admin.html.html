@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results Dashboard</title>
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+}
+table{
+width:100%;
+border-collapse:collapse;
+}
+th,td{
+border:1px solid #ddd;
+padding:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>CAMPS TEST Results</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Register</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="results"></tbody>
+
+</table>
+
+<script>
+
+let results = JSON.parse(localStorage.getItem("results") || "[]");
+
+let table = document.getElementById("results");
+
+results.forEach(r=>{
+
+let row = `
+<tr>
+<td>${r.name}</td>
+<td>${r.reg}</td>
+<td>${r.date}</td>
+</tr>
+`;
+
+table.innerHTML += row;
+
+});
+
+</script>
+
+</body>
+</html>
