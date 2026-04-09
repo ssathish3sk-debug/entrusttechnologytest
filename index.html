@@ -1,48 +1,30 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAMPS TEST Login</title>
+<title>Login</title>
 <style>
-body{
-font-family: Arial;
-padding:20px;
-max-width:500px;
-margin:auto;
-}
-input,button{
-width:100%;
-padding:12px;
-margin-top:10px;
-}
-button{
-background:#007BFF;
-color:white;
-border:none;
-}
+body{font-family:Arial;background:#f4f6f9;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#fff;padding:25px;border-radius:10px;width:300px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+input,button{width:100%;padding:12px;margin-top:10px;border-radius:5px}
+button{background:#007bff;color:white;border:none}
 </style>
 </head>
 <body>
-
-<h2>CAMPS TEST</h2>
-<p>IT Hardware & Networking + MCSA</p>
-
-<input type="text" id="name" placeholder="Student Name">
-<input type="text" id="reg" placeholder="Register Number">
-
+<div class="card">
+<h2>IT Exam Login</h2>
+<input id="name" placeholder="Name">
+<input id="reg" placeholder="Register No">
 <button onclick="startExam()">Start Exam</button>
-
+</div>
 <script>
 function startExam(){
-let name = document.getElementById("name").value;
-let reg = document.getElementById("reg").value;
-
-localStorage.setItem("studentName", name);
-localStorage.setItem("studentReg", reg);
-
-window.location = "exam.html";
+let n=name.value.trim();
+let r=reg.value.trim();
+if(!n||!r){alert("Enter details");return;}
+localStorage.setItem("studentName",n);
+localStorage.setItem("studentReg",r);
+location='exam.html';
 }
 </script>
-
 </body>
 </html>
