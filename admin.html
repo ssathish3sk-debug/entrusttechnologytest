@@ -1,64 +1,26 @@
-<!DOCTYPE html>
-<html>
+
+<!DOCTYPE html><html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Results Dashboard</title>
-
+<title>Admin</title>
 <style>
-body{
-font-family:Arial;
-padding:20px;
-}
-table{
-width:100%;
-border-collapse:collapse;
-}
-th,td{
-border:1px solid #ddd;
-padding:10px;
-}
+body{font-family:Arial;background:#f4f6f9;padding:20px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{border:1px solid #ddd;padding:10px;text-align:center}
+th{background:#007bff;color:#fff}
 </style>
-
 </head>
-
 <body>
-
-<h2>CAMPS TEST Results</h2>
-
+<h2>Admin Results Panel</h2>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Register</th>
-<th>Date</th>
-</tr>
-</thead>
-
-<tbody id="results"></tbody>
-
+<tr><th>Name</th><th>Reg</th><th>Score</th><th>%</th><th>Date</th></tr>
+<tbody id="res"></tbody>
 </table>
-
 <script>
-
-let results = JSON.parse(localStorage.getItem("results") || "[]");
-
-let table = document.getElementById("results");
-
-results.forEach(r=>{
-
-let row = `
-<tr>
-<td>${r.name}</td>
-<td>${r.reg}</td>
-<td>${r.date}</td>
-</tr>
-`;
-
-table.innerHTML += row;
-
+let data=JSON.parse(localStorage.getItem("results")||"[]");
+data.forEach(r=>{
+res.innerHTML+=`<tr><td>${r.name}</td><td>${r.reg}</td><td>${r.score}/${r.total}</td><td>${r.percent}%</td><td>${r.date}</td></tr>`;
 });
-
 </script>
-
 </body>
 </html>
+
