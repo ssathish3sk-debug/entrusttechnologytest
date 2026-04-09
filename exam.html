@@ -1,131 +1,84 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAMPS TEST</title>
-
+<title>Exam</title>
 <style>
-body{
-font-family: Arial;
-padding:20px;
-max-width:800px;
-margin:auto;
-}
-.question{
-margin-bottom:20px;
-border:1px solid #ddd;
-padding:15px;
-border-radius:8px;
-}
-#timer{
-font-size:22px;
-color:red;
-font-weight:bold;
-}
-button{
-width:100%;
-padding:15px;
-background:green;
-color:white;
-border:none;
-}
+body{font-family:Arial;background:#eef2f7;padding:20px}
+.card{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:10px}
+.q{margin-bottom:15px;padding:10px;border:1px solid #ddd;border-radius:8px}
+button{width:100%;padding:15px;background:green;color:white;border:none}
+#timer{color:red;font-weight:bold}
 </style>
-
 </head>
-
 <body>
-
-<h2>CAMPS TEST</h2>
-<div id="timer">01:00:00</div>
-
-<div id="questions"></div>
-
-<button onclick="submitExam()">Submit Exam</button>
-
+<div class="card">
+<h2>IT Hardware & Networking + MCSA</h2>
+<div id="timer"></div>
+<div id="qbox"></div>
+<button onclick="submitExam()">Submit</button>
+</div>
 <script>
+let questions=[
+{q:"CPU full form?",o:["Central Processing Unit","Central Print Unit","Computer Unit","Control Unit"],a:"Central Processing Unit"},
+{q:"Volatile memory?",o:["RAM","ROM","SSD","HDD"],a:"RAM"},
+{q:"Router works on?",o:["Layer 3","Layer 2","Layer 1","Layer 4"],a:"Layer 3"},
+{q:"OSI layers?",o:["7","5","3","8"],a:"7"},
+{q:"IPv4 size?",o:["32 bit","64 bit","128 bit","16 bit"],a:"32 bit"},
+{q:"MAC length?",o:["48 bit","32 bit","64 bit","16 bit"],a:"48 bit"},
+{q:"DNS use?",o:["Name resolution","IP assign","Security","Routing"],a:"Name resolution"},
+{q:"DHCP use?",o:["IP assign","Mail","Security","Backup"],a:"IP assign"},
+{q:"LAN means?",o:["Local Area Network","Large Area","Long Area","None"],a:"Local Area Network"},
+{q:"WAN means?",o:["Wide Area Network","Wireless","Web","None"],a:"Wide Area Network"},
+{q:"Switch layer?",o:["Layer2","Layer3","Layer1","Layer7"],a:"Layer2"},
+{q:"Firewall use?",o:["Security","Storage","Print","Video"],a:"Security"},
+{q:"VPN full form?",o:["Virtual Private Network","Public","Video","Voice"],a:"Virtual Private Network"},
+{q:"Active Directory use?",o:["User mgmt","Video","Audio","Print"],a:"User mgmt"},
+{q:"NTFS?",o:["File system","Protocol","Driver","Service"],a:"File system"},
+{q:"Hyper-V?",o:["Virtualization","Backup","Print","Audio"],a:"Virtualization"},
+{q:"RDP?",o:["Remote access","Print","Backup","Video"],a:"Remote access"},
+{q:"RAID1?",o:["Mirror","Striping","Parity","Backup"],a:"Mirror"},
+{q:"RAID0?",o:["Striping","Mirror","Parity","Backup"],a:"Striping"},
+{q:"HTTP port?",o:["80","443","21","22"],a:"80"},
+{q:"HTTPS port?",o:["443","80","21","22"],a:"443"},
+{q:"SSH port?",o:["22","21","25","80"],a:"22"},
+{q:"SMTP?",o:["Send mail","Receive","File","Route"],a:"Send mail"},
+{q:"POP3?",o:["Receive mail","Send","Route","File"],a:"Receive mail"},
+{q:"Default gateway?",o:["Router","Switch","Server","DNS"],a:"Router"},
+{q:"Subnet?",o:["Divide network","Security","Login","Route"],a:"Divide network"},
+{q:"NIC?",o:["Network card","Video","Audio","CPU"],a:"Network card"},
+{q:"RJ45?",o:["Ethernet","USB","HDMI","VGA"],a:"Ethernet"},
+{q:"SSD?",o:["Solid drive","Secure","System","Storage"],a:"Solid drive"},
+{q:"BIOS?",o:["Boot","Storage","Audio","Video"],a:"Boot"},
+{q:"Device Manager?",o:["Hardware","Audio","Video","Backup"],a:"Hardware"},
+{q:"Task Manager?",o:["Process","Print","Audio","Video"],a:"Process"},
+{q:"Server Manager?",o:["Roles","Games","Audio","Video"],a:"Roles"},
+{q:"DNS port?",o:["53","80","21","25"],a:"53"},
+{q:"FTP?",o:["File transfer","Mail","Route","Print"],a:"File transfer"},
+{q:"IPv6?",o:["128","32","64","16"],a:"128"},
+{q:"Hub layer?",o:["1","2","3","4"],a:"1"},
+{q:"Router reduce?",o:["Broadcast","Speed","Storage","Audio"],a:"Broadcast"},
+{q:"VLAN?",o:["Virtual LAN","Visual","Variable","None"],a:"Virtual LAN"},
+{q:"MCSA full?",o:["Microsoft Certified Solutions Associate","Other","Admin","Security"],a:"Microsoft Certified Solutions Associate"},
+{q:"Event Viewer?",o:["Logs","Audio","Video","Game"],a:"Logs"},
+{q:"Backup?",o:["Data safety","Audio","Video","Print"],a:"Data safety"},
+{q:"RAID use?",o:["Redundancy","Audio","Video","Print"],a:"Redundancy"},
+{q:"IP config command?",o:["ipconfig","ping","dir","net"],a:"ipconfig"},
+{q:"Ping?",o:["Test network","Copy","Delete","Move"],a:"Test network"},
+{q:"Domain controller?",o:["Auth server","Print","File","DNS"],a:"Auth server"},
+{q:"Group policy?",o:["Control users","Video","Audio","Print"],a:"Control users"},
+{q:"Control panel?",o:["Settings","Audio","Video","Print"],a:"Settings"}
+];let box=document.getElementById("qbox"); questions.forEach((x,i)=>{ let d=document.createElement("div");d.className="q"; d.innerHTML=<b>${i+1}. ${x.q}</b><br>+ x.o.map(o=><label><input type='radio' name='q${i}' value='${o}'> ${o}</label><br>).join(''); box.appendChild(d); });
 
-let questions = [];
+let t=1800; setInterval(()=>{ let m=Math.floor(t/60),s=t%60; timer.innerText=Time: ${m}:${s}; t--;if(t<=0)submitExam(); },1000);
 
-for(let i=1;i<=45;i++){
-questions.push({
-question:"IT Hardware & Networking Question " + i,
-options:["Option A","Option B","Option C","Option D"]
-});
-}
+function submitExam(){ let score=0; questions.forEach((q,i)=>{ let sel=document.querySelector(input[name=q${i}]:checked); if(sel && sel.value===q.a)score++; });
 
-let container = document.getElementById("questions");
+let data={ name:localStorage.getItem("studentName"), reg:localStorage.getItem("studentReg"), score:score, total:questions.length, percent:(score/questions.length*100).toFixed(1), date:new Date().toLocaleString() };
 
-questions.forEach((q,index)=>{
+let all=JSON.parse(localStorage.getItem("results")||"[]"); all.push(data); localStorage.setItem("results",JSON.stringify(all));
 
-let div = document.createElement("div");
-div.classList.add("question");
-
-let html = `<p>${index+1}. ${q.question}</p>`;
-
-q.options.forEach(opt=>{
-html += `
-<label>
-<input type="radio" name="q${index}" value="${opt}">
-${opt}
-</label><br>
-`;
-});
-
-div.innerHTML = html;
-container.appendChild(div);
-
-});
-
-// timer
-let time = 3600;
-
-let timer = setInterval(()=>{
-
-let h = Math.floor(time/3600);
-let m = Math.floor((time%3600)/60);
-let s = time%60;
-
-document.getElementById("timer").innerHTML =
-`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-
-if(time<=0){
-submitExam();
-}
-
-time--;
-
-},1000);
-
-
-function submitExam(){
-
-clearInterval(timer);
-
-let answers = {};
-
-for(let i=0;i<45;i++){
-let ans = document.querySelector(`input[name="q${i}"]:checked`);
-answers[`q${i}`] = ans ? ans.value : "Not Answered";
-}
-
-let data = {
-name: localStorage.getItem("studentName"),
-reg: localStorage.getItem("studentReg"),
-answers: answers,
-date: new Date()
-};
-
-let all = JSON.parse(localStorage.getItem("results") || "[]");
-all.push(data);
-localStorage.setItem("results", JSON.stringify(all));
-
-alert("Exam Submitted Successfully");
-
-window.location="login.html";
-
-}
-
-</script>
+alert("Exam submitted successfully"); location='login.html'; } </script>
 
 </body>
 </html>
+
